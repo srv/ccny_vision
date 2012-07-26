@@ -25,7 +25,43 @@ Index: Configure
  		fi	
          VIDEO_DRIVER="VideoLinuxV4L"
 -        CFLAG="-O -I/usr/X11R6/include"
-+        CFLAG="-O -I/usr/X11R6/include -I/usr/src/linux-headers-"$(uname -r)"/include"
++        CFLAG="-fPIC -O -I/usr/X11R6/include -I/usr/src/linux-headers-"$(uname -r)"/include"
+         LDFLAG="-L/usr/X11R6/lib"
+         ARFLAG="rs"
+         RANLIB=""
+@@ -99,7 +99,7 @@
+ 			exit 0
+ 		fi		
+         VIDEO_DRIVER="VideoLinuxV4L"
+-        CFLAG="-O -I/usr/X11R6/include -DUSE_EYETOY"
++        CFLAG="-fPIC -O -I/usr/X11R6/include -DUSE_EYETOY"
+         LDFLAG="-L/usr/X11R6/lib"
+         ARFLAG="rs"
+         RANLIB=""
+@@ -108,7 +108,7 @@
+     elif [ "$ANS" = "3" ]
+     then
+         VIDEO_DRIVER="VideoLinuxDV"
+-        CFLAG="-O -I/usr/X11R6/include"
++        CFLAG="-fPIC -O -I/usr/X11R6/include"
+         LDFLAG="-L/usr/X11R6/lib"
+         ARFLAG="rs"
+         RANLIB=""
+@@ -117,7 +117,7 @@
+     elif [ "$ANS" = "4" ]
+     then
+         VIDEO_DRIVER="VideoLinux1394Cam"
+-        CFLAG="-O -I/usr/X11R6/include"
++        CFLAG="-fPIC -O -I/usr/X11R6/include"
+         LDFLAG="-L/usr/X11R6/lib"
+         ARFLAG="rs"
+         RANLIB=""
+@@ -126,7 +126,7 @@
+     elif [ "$ANS" = "5" ]
+     then
+         VIDEO_DRIVER="VideoGStreamer"
+-		CFLAG="-O -I/usr/X11R6/include -fPIC"
++		CFLAG="-fPIC -O -I/usr/X11R6/include -fPIC"
          LDFLAG="-L/usr/X11R6/lib"
          ARFLAG="rs"
          RANLIB=""
@@ -39,6 +75,33 @@ Index: Configure
      if [ "$ANS" = "y" ]
      then
          CFLAG="$CFLAG -g"
+@@ -158,7 +158,7 @@
+ elif [ "$E" = "IRIX" ]
+ then
+     VIDEO_DRIVER="VideoSGI"
+-    CFLAG="-O -n32"
++    CFLAG="-fPIC -O -n32"
+     LDFLAG="-n32"
+     ARFLAG="rs"
+     RANLIB=""
+@@ -166,7 +166,7 @@
+ elif [ "$E" = "IRIX64" ]
+ then
+     VIDEO_DRIVER="VideoSGI"
+-    CFLAG="-O -n32"
++    CFLAG="-fPIC -O -n32"
+     LDFLAG="-n32"
+     ARFLAG="rs"
+     RANLIB=""
+@@ -174,7 +174,7 @@
+ elif [ "$E" = "Darwin" ]
+ then
+     VIDEO_DRIVER="VideoMacOSX"
+-    CFLAG="-O"
++    CFLAG="-fPIC -O"
+     LDFLAG=""
+     ARFLAG="-r"
+     RANLIB="ranlib \$\@"
 @@ -199,7 +202,8 @@
  echo "GL_NV_texture_rectangle is supported on most NVidia graphics cards"
  echo "and on ATi Radeon and better graphics cards"
