@@ -151,7 +151,7 @@ namespace ar_pose
      * NOTE: the dataPtr format is BGR because the ARToolKit library was
      * build with V4L, dataPtr format change according to the 
      * ARToolKit configure option (see config.h).*/
-    try
+    /*try
     {
       capture_ = bridge_.imgMsgToCv (image_msg, "bgr8");
     }
@@ -160,7 +160,21 @@ namespace ar_pose
       ROS_ERROR ("Could not convert from '%s' to 'bgr8'.", image_msg->encoding.c_str ());
     }
     //cvConvertImage(capture,capture,CV_CVTIMG_FLIP);
-    dataPtr = (ARUint8 *) capture_->imageData;
+    dataPtr = (ARUint8 *) capture_->imageData;*/
+
+    cv_bridge::CvImagePtr cv_ptr;
+
+    try
+    {
+      cv_ptr = cv_bridge::toCvCopy(image_msg, 
+          sensor_msgs::image_encodings::BGR8);
+    }
+    catch (cv_bridge::Exception& e)
+    {
+      ROS_ERROR("cv_bridge exception: %s", e.what());
+      return;
+    }
+    dataPtr = (ARUint8 *) cv_ptr->image.data; 
 
     // detect the markers in the video frame
     if (arDetectMarker (dataPtr, threshold_, &marker_info, &marker_num) < 0)
@@ -246,9 +260,9 @@ namespace ar_pose
 
       // **** publish transform between camera and marker
 
-      btQuaternion rotation (quat[0], quat[1], quat[2], quat[3]);
-      btVector3 origin (pos[0], pos[1], pos[2]);
-      btTransform t (rotation, origin);
+      tf::Quaternion rotation (quat[0], quat[1], quat[2], quat[3]);
+      tf::Vector3 origin (pos[0], pos[1], pos[2]);
+      tf::Transform t (rotation, origin);
 
       if (publishTf_)
       {
@@ -260,9 +274,9 @@ namespace ar_pose
 
       if (publishVisualMarkers_)
       {
-        btVector3 markerOrigin (0, 0, 0.25 * object[i].marker_width * AR_TO_ROS);
-        btTransform m (btQuaternion::getIdentity (), markerOrigin);
-        btTransform markerPose = t * m; // marker pose in the camera frame
+        tf::Vector3 markerOrigin (0, 0, 0.25 * object[i].marker_width * AR_TO_ROS);
+        tf::Transform m (tf::Quaternion::getIdentity (), markerOrigin);
+        tf::Transform markerPose = t * m; // marker pose in the camera frame
 
         tf::poseTFToMsg (markerPose, rvizMarker_.pose);
 

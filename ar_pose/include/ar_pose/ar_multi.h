@@ -38,12 +38,13 @@
 #include <geometry_msgs/TransformStamped.h>
 #include <tf/transform_broadcaster.h>
 #include <image_transport/image_transport.h>
+#include <sensor_msgs/image_encodings.h>
 #include <sensor_msgs/CameraInfo.h>
 #include <visualization_msgs/Marker.h>
 #include <resource_retriever/retriever.h>
 
 #include <opencv/cv.h>
-#include <cv_bridge/CvBridge.h>
+#include <cv_bridge/cv_bridge.h>
 
 #include <ar_pose/ARMarkers.h>
 #include <ar_pose/ARMarker.h>
@@ -74,7 +75,7 @@ namespace ar_pose
       ros::Publisher arMarkerPub_;
 
       image_transport::ImageTransport it_;
-      sensor_msgs::CvBridge bridge_;
+      //sensor_msgs::CvBridge bridge_;
       sensor_msgs::CameraInfo cam_info_;
 
     // **** for visualisation in rviz
