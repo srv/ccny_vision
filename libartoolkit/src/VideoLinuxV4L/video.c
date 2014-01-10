@@ -27,7 +27,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <linux/types.h>
-#include <linux/videodev.h>
+//#include <linux/videodev.h>
+#include <libv4l1-videodev.h>
 #include <AR/config.h>
 #include <AR/ar.h>
 #include <AR/video.h>
