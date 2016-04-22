@@ -76,6 +76,7 @@ int arDetectMarker( ARUint8 *dataPtr, int thresh,
     marker_info2 = arDetectMarker2( limage, label_num, label_ref,
                                     area, pos, clip, AR_AREA_MAX, AR_AREA_MIN,
                                     1.0, &wmarker_num);
+
     if( marker_info2 == 0 ) return -1;
 
     wmarker_info = arGetMarkerInfo( dataPtr, marker_info2, &wmarker_num );
